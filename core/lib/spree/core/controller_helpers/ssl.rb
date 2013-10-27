@@ -38,8 +38,8 @@ module Spree
             # ==== Parameters
             # * <tt>host</tt> - Redirect to a different host name
             def force_non_ssl_redirect(host = nil)
-              return true if defined?(ssl_allowed_actions) and ssl_allowed_actions.include?(action_name.to_sym)
-              if request.ssl? and (!defined?(ssl_required_actions) or !ssl_required_actions.include?(action_name.to_sym))
+              return true if defined?(ssl_allowed_actions) and (ssl_allowed_actions.include?(action_name.to_sym) or ssl_allowed_actions == [])
+              if request.ssl? and (!defined?(ssl_required_actions) or !(ssl_required_actions.include?(action_name.to_sym) or ssl_required_actions == []))
                 redirect_options = {:protocol => 'http://', :status => :moved_permanently}
                 redirect_options.merge!(:host => host) if host
                 redirect_options.merge!(:params => request.query_parameters)
