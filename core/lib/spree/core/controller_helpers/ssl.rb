@@ -44,7 +44,8 @@ module Spree
                 redirect_options.merge!(:host => host) if host
                 redirect_options.merge!(:params => request.query_parameters)
                 flash.keep if respond_to?(:flash)
-                redirect_to redirect_options
+                #redirect_to redirect_options
+                redirect_to request.original_url.sub('https','http')
               end
             end
 
